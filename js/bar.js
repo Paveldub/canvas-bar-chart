@@ -2,7 +2,7 @@
 
 function BarChart (targetId, width, height, data) {
   // Base
-  var chart = this
+  let chart = this
 
   // Specify Configurations
   chart.configureChart(targetId, width, height, data)
@@ -15,7 +15,7 @@ function BarChart (targetId, width, height, data) {
 
 BarChart.prototype.configureChart = function (targetId, width, height, data) {
   // Base
-  var chart = this
+  let chart = this
 
   // Global Canvas Specifications
   chart.setCanvasParameters(targetId, width, height, data)
@@ -31,7 +31,7 @@ BarChart.prototype.setCanvasParameters = function (
   data
 ) {
   // Base
-  var chart = this
+  let chart = this
 
   // Canvas Specifications come from outside
   chart.id = targetId
@@ -42,7 +42,7 @@ BarChart.prototype.setCanvasParameters = function (
 
 BarChart.prototype.setChartParameters = function () {
   // Base
-  var chart = this
+  let chart = this
 
   // Axe Configurations
   chart.axeRatio = 10 // in terms of percentage
@@ -67,7 +67,7 @@ BarChart.prototype.setChartParameters = function () {
 
 BarChart.prototype.performPreOperations = function () {
   // Base
-  var chart = this
+  let chart = this
 
   // Create Canvas
   chart.createCanvas()
@@ -81,10 +81,10 @@ BarChart.prototype.performPreOperations = function () {
 
 BarChart.prototype.createCanvas = function () {
   // Base
-  var chart = this
+  let chart = this
 
   // Create Canvas
-  var canvas = document.createElement('canvas')
+  let canvas = document.createElement('canvas')
   canvas.id = chart.id + '-' + Math.random()
   canvas.width = chart.width
   canvas.height = chart.height
@@ -100,7 +100,7 @@ BarChart.prototype.createCanvas = function () {
 
 BarChart.prototype.handleData = function () {
   // Base
-  var chart = this
+  let chart = this
 
   // Data sets
   chart.labels = []
@@ -115,9 +115,9 @@ BarChart.prototype.handleData = function () {
 
 BarChart.prototype.preapareData = function () {
   // Base
-  var chart = this
+  let chart = this
 
-  // Global Variables
+  // Global letiables
   chart.itemsNum = chart.data.length
   chart.maxValue = Math.max.apply(null, chart.values)
   chart.minValue = Math.min.apply(null, chart.values)
