@@ -150,6 +150,12 @@ BarChart.prototype.drawChart = function () {
 
   // horizontal labels
   chart.drawHorizontalLabels()
+
+  // horizontal guidelines
+  chart.drawHorintalGuidelines()
+
+  // vertical guidelines
+  chart.drawVerticalGuidelines()
 }
 
 BarChart.prototype.drawVerticalAxis = function () {
@@ -250,5 +256,65 @@ BarChart.prototype.drawHorizontalLabels = function () {
       chart.verticalMargin / chart.axisRatio
 
     chart.context.fillText(chart.labels[i], horizontalLabelX, horizontalLabelY)
+  }
+}
+
+BarChart.prototype.drawHorintalGuidelines = function () {
+  // Base
+  let chart = this
+
+  // specifications
+  chart.context.strokeStyle = chart.guidelineColor
+  chart.context.lineWidth = chart.guidelineWidth
+
+  // Scale Values
+  let scaledVerticalLabelFreq =
+    (chart.verticalAxisWidth / chart.verticalUpperBound) *
+    chart.verticalLabelFreq
+
+  // Draw labels
+  for (let i = 0; i <= chart.itemsNum; i++) {
+    // starting point coords
+    let horizontalGuideLineStartX = chart.horizontalMargin
+    let horizontalGuideLineStartY =
+      chart.verticalMargin + i * scaledVerticalLabelFreq
+
+    // end point coords
+    let horizontalGuideLineEndX =
+      chart.horizontalMargin + chart.horizontalAxisWidth
+    let horizontalGuideLineEndY =
+      chart.verticalMargin + i * scaledVerticalLabelFreq
+
+    chart.context.beginPath()
+    chart.context.moveTo(horizontalGuideLineStartX, horizontalGuideLineStartY)
+    chart.context.lineTo(horizontalGuideLineEndX, horizontalGuideLineEndY)
+    chart.context.stroke()
+  }
+}
+
+BarChart.prototype.drawVerticalGuidelines = function () {
+  // Base
+  let chart = this
+
+  // specifications
+  chart.context.strokeStyle = chart.guidelineColor
+  chart.context.lineWidth = chart.guidelineWidth
+
+  // draw vertical lines
+  for (let i = 0; i < chart.itemsNum; i++) {
+    // Starting point coords
+    let verticalGuideLineStartX =
+      chart.horizontalMargin + i * chart.horizontalLabelFreq
+    let verticalGuideLineStartY = chart.height - chart.verticalMargin
+
+    // End point coords
+    let verticalGuidelineEndX =
+      chart.horizontalMargin + i * chart.horizontalLabelFreq
+    let verticalGuidelineEndY = chart.verticalMargin
+
+    chart.context.beginPath()
+    chart.context.moveTo(verticalGuideLineStartX, verticalGuideLineStartY)
+    chart.context.lineTo(verticalGuidelineEndX, verticalGuidelineEndY)
+    chart.context.stroke()
   }
 }
