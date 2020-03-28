@@ -301,7 +301,7 @@ BarChart.prototype.drawVerticalGuidelines = function () {
   chart.context.lineWidth = chart.guidelineWidth
 
   // draw vertical lines
-  for (let i = 0; i < chart.itemsNum; i++) {
+  for (let i = 0; i <= chart.itemsNum; i++) {
     // Starting point coords
     let verticalGuideLineStartX =
       chart.horizontalMargin + i * chart.horizontalLabelFreq
