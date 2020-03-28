@@ -12,6 +12,8 @@ function BarChart (targetId, width, height, data) {
 
   // draw chart
   chart.drawChart()
+
+  console.log(chart)
 }
 
 BarChart.prototype.configureChart = function (targetId, width, height, data) {
@@ -130,7 +132,7 @@ BarChart.prototype.preapareData = function () {
   // Label Specifications
   chart.verticalUpperBound = Math.ceil(chart.maxValue / 10) * 10
   chart.verticalLabelFreq = chart.verticalUpperBound / chart.itemsNum
-  chart.horizontalLabelFreq = chart.horizontalAxeWidth / chart.itemsNum
+  chart.horizontalLabelFreq = chart.horizontalAxisWidth / chart.itemsNum
 }
 
 BarChart.prototype.drawChart = function () {
@@ -142,6 +144,12 @@ BarChart.prototype.drawChart = function () {
 
   // horizontal axis
   chart.drawHorintalAxis()
+
+  // vertical labels
+  chart.drawVerticalLabels()
+
+  // horizontal labels
+  chart.drawHorizontalLabels()
 }
 
 BarChart.prototype.drawVerticalAxis = function () {
@@ -177,4 +185,70 @@ BarChart.prototype.drawHorintalAxis = function () {
     chart.height - chart.verticalMargin
   )
   chart.context.stroke()
+}
+
+BarChart.prototype.drawVerticalLabels = function () {
+  // Base
+  let chart = this
+
+  // Text Specifications
+  let labelFont =
+    chart.fontStyle +
+    ' ' +
+    chart.fontWeight +
+    ' ' +
+    chart.verticalFontSize +
+    'px ' +
+    chart.fontFamily
+  chart.context.font = labelFont
+  chart.context.textAlign = 'right'
+  chart.context.fillStyle = chart.fontColor
+
+  // Scale Values
+  let scaledVerticalLabelFreq =
+    (chart.verticalAxisWidth / chart.verticalUpperBound) *
+    chart.verticalLabelFreq
+
+  // Draw labels
+  for (let i = 0; i <= chart.itemsNum; i++) {
+    let labelText = chart.verticalUpperBound - i * chart.verticalLabelFreq
+    let verticalLabelX =
+      chart.horizontalMargin - chart.horizontalMargin / chart.axisRatio
+    let verticalLabelY = chart.verticalMargin + i * scaledVerticalLabelFreq
+
+    chart.context.fillText(labelText, verticalLabelX, verticalLabelY)
+  }
+}
+
+BarChart.prototype.drawHorizontalLabels = function () {
+  // Base
+  let chart = this
+
+  // Text Specifications
+  let labelFont =
+    chart.fontStyle +
+    ' ' +
+    chart.fontWeight +
+    ' ' +
+    chart.verticalFontSize +
+    'px ' +
+    chart.fontFamily
+  chart.context.font = labelFont
+  chart.context.textAlign = 'center'
+  chart.context.textBaseline = 'top'
+  chart.context.fillStyle = chart.fontColor
+
+  // Draw labels
+  for (let i = 0; i < chart.itemsNum; i++) {
+    let horizontalLabelX =
+      chart.horizontalMargin +
+      i * chart.horizontalLabelFreq +
+      chart.horizontalLabelFreq / 2
+    let horizontalLabelY =
+      chart.height -
+      chart.verticalMargin +
+      chart.verticalMargin / chart.axisRatio
+
+    chart.context.fillText(chart.labels[i], horizontalLabelX, horizontalLabelY)
+  }
 }
