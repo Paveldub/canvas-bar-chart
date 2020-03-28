@@ -12,8 +12,6 @@ function BarChart (targetId, width, height, data) {
 
   // draw chart
   chart.drawChart()
-
-  console.log(chart)
 }
 
 BarChart.prototype.configureChart = function (targetId, width, height, data) {
@@ -156,6 +154,9 @@ BarChart.prototype.drawChart = function () {
 
   // vertical guidelines
   chart.drawVerticalGuidelines()
+
+  // Bars
+  chart.drawBars()
 }
 
 BarChart.prototype.drawVerticalAxis = function () {
@@ -317,4 +318,58 @@ BarChart.prototype.drawVerticalGuidelines = function () {
     chart.context.lineTo(verticalGuidelineEndX, verticalGuidelineEndY)
     chart.context.stroke()
   }
+}
+
+BarChart.prototype.drawBars = function () {
+  // Base
+  let chart = this
+
+  for (let i = 0; i < chart.itemsNum; i++) {
+    let color = chart.createRandomRGBColor()
+    let fillOpacity = '0.3'
+    let fillColor =
+      'rgba(' +
+      color.r +
+      ', ' +
+      color.g +
+      ', ' +
+      color.b +
+      ', ' +
+      fillOpacity +
+      ')'
+
+    let borderColor = 'rgba(' + color.r + ', ' + color.g + ', ' + color.b + ')'
+
+    chart.context.beginPath()
+
+    let barX =
+      chart.horizontalMargin +
+      i * chart.horizontalLabelFreq +
+      chart.horizontalLabelFreq / chart.axisRatio
+    let barY = chart.height - chart.verticalMargin
+    let barWidth =
+      chart.horizontalLabelFreq -
+      (2 * chart.horizontalLabelFreq) / chart.axisRatio
+    let barHeight =
+      (-1 * chart.verticalAxisWidth * chart.values[i]) / chart.maxValue
+
+    chart.context.fillStyle = fillColor
+    chart.context.strokeStyle = borderColor
+    chart.context.rect(barX, barY, barWidth, barHeight)
+    chart.context.stroke()
+    chart.context.fill()
+  }
+}
+BarChart.prototype.createRandomRGBColor = function () {
+  let red = getRandomInt(0, 257)
+  let green = getRandomInt(0, 257)
+  let blue = getRandomInt(0, 257)
+
+  return { r: red, g: green, b: blue }
+}
+
+function getRandomInt (min, max) {
+  min = Math.ceil(min)
+  max = Math.floor(max)
+  return Math.floor(Math.random() * (max - min)) + min
 }
